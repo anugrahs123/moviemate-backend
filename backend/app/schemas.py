@@ -1,13 +1,19 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, model_validator
 from typing import Optional
-
+from sqlalchemy import Column, Integer
+from .database import Base
 class MediaBase(BaseModel):
     title: str
     director: str
+    type: str
+    totalEpisodes: Optional[int] = Field(None, ge=1)
     genre: str
     platform: str
     status: str
-
+    
+    class Config:
+        from_attributes = True
+  
 class MediaCreate(MediaBase):
     pass
 
@@ -15,7 +21,7 @@ class Media(MediaBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 class EpisodeProgressBase(BaseModel):
     media_id: int
     season: int
@@ -43,3 +49,8 @@ class Review(ReviewBase):
     id: int
     class Config:
         orm_mode = True
+        
+class EpisodeUpdate(BaseModel):
+    season: int
+    episode: int
+    status: str
