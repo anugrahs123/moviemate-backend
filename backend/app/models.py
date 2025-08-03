@@ -1,19 +1,23 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from .database import Base
+from sqlalchemy.orm import Mapped, mapped_column
+from .database import Base
+from typing import Optional
 
 class Media(Base):
     __tablename__ = "media"
-
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    director = Column(String)
-    genre = Column(String)
-    platform = Column(String)  
-    status = Column(String)    # watching, completed, wishlist
+    
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    title: Mapped[str] = mapped_column(String, index=True)
+    director: Mapped[str] = mapped_column(String)
+    type: Mapped[str] = mapped_column(String)  # movie, tv
+    genre: Mapped[str] = mapped_column(String)
+    platform: Mapped[str] = mapped_column(String)
+    totalEpisodes: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    status: Mapped[str] = mapped_column(String)   # watching, completed, wishlist
     episodes = relationship("EpisodeProgress", back_populates="media", cascade="all, delete-orphan")
     reviews = relationship("Review", back_populates="media", cascade="all, delete-orphan")
-
 
 class EpisodeProgress(Base):
     __tablename__ = "episode_progress"
