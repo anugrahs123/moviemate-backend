@@ -5,6 +5,8 @@
 
 ### Backend Setup (FastAPI)
 
+**clone** the github repository : git clone https://github.com/anugrahs123/moviemate-backend.git
+
 1. Navigate to backend directory:
    ```bash
    cd backend
